@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portafolio — Angelo Sotelo Ulloa</title>
+  <meta name="description" content="Portafolio de Angelo Sotelo Ulloa — Ingeniero en sistemas y networker profesional.">
+  <style>
+    /* ====== Reset & Base ====== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:#0b0b10;color:#e5e7eb;line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    :root{
+      --bg:#0b0b10;
+      --panel:#10121a;
+      --muted:#9ca3af;
+      --soft:#141826;
+      --accent1:#ec4899; /* fucsia */
+      --accent2:#06b6d4; /* cian */
+      --ring: rgba(236,72,153,.5);
+      --br: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* ====== Layout ====== */
+    .container{max-width:1100px;margin:0 auto;padding:0 20px}
+    header.nav{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:saturate(140%) blur(8px);
+      background:rgba(0,0,0,.35);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{font-weight:700;letter-spacing:.2px}
+    .brand span{color:var(--accent1)}
+    .nav-links{display:flex;gap:18px}
+    .nav-links a{font-size:.95rem;color:#d1d5db}
+    .nav-links a:hover{color:white}
+    .menu-btn{display:none;border:1px solid rgba(255,255,255,.12);padding:8px 12px;border-radius:12px;background:transparent;color:#e5e7eb}
+
+    @media (max-width: 860px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-block}
+      .mobile{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 0}
+      .mobile a{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);padding:10px;border-radius:12px;color:#d1d5db}
+    }
+
+    /* ====== Hero ====== */
+    .hero{position:relative;padding:70px 0}
+    .bg-bubbles{
+      position:fixed;inset:0;z-index:-1;overflow:hidden;
+      background:radial-gradient(circle at 20% -10%, rgba(236,72,153,.16), transparent 40%),
+                 radial-gradient(circle at 120% 110%, rgba(6,182,212,.12), transparent 40%);
+    }
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+    @media (max-width: 860px){.hero-grid{grid-template-columns:1fr;gap:28px}}
+    .kicker{color:var(--muted);text-transform:uppercase;letter-spacing:.25em;font-size:.75rem}
+    h1{font-size:clamp(32px,5vw,48px);line-height:1.1;margin:.2em 0 .3em}
+    .lead{color:#d1d5db;max-width:54ch}
+    .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:18px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);font-size:.95rem}
+    .btn:hover{background:rgba(255,255,255,.1)}
+
+    /* Avatar card */
+    .avatar-wrap{position:relative;width:min(360px,90vw);aspect-ratio:1/1;margin-inline:auto}
+    .glow{position:absolute;inset:-20px;border-radius:28px;background:linear-gradient(135deg,rgba(236,72,153,.28),rgba(6,182,212,.28));filter:blur(28px)}
+    .avatar{position:relative;height:100%;border-radius:28px;border:1px solid rgba(255,255,255,.12);background:linear-gradient(to bottom,rgba(255,255,255,.06),rgba(255,255,255,0));padding:20px;box-shadow:var(--shadow)}
+
+    /* Sections */
+    section{padding:64px 0;border-top:1px solid rgba(255,255,255,.05)}
+    h2{font-size:1.6rem;margin:0 0 16px}
+    .grid{display:grid;gap:18px}
+    .grid-2{grid-template-columns:1fr 1fr}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    @media (max-width: 900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+    .panel{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:16px;padding:18px}
+
+    /* Proyectos */
+    .project{transition:transform .2s ease, border-color .2s ease}
+    .project:hover{transform:translateY(-3px);border-color:rgba(236,72,153,.4)}
+    .tag{display:inline-block;font-size:.7rem;padding:4px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);margin-right:6px;color:#d1d5db}
+
+    /* Skills */
+    .skill{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .bar{height:8px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+    .bar > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2))}
+
+    /* Timeline & Rango */
+    .timeline{position:relative;border-left:1px solid rgba(255,255,255,.12);padding-left:18px}
+    .timeline .dot{position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2))}
+    .rank{display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+
+    /* Contacto */
+    form{display:grid;gap:12px}
+    label span{display:block;margin-bottom:6px;color:#d1d5db;font-size:.9rem}
+    input,textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.35);color:#e5e7eb;outline:none}
+    input:focus,textarea:focus{border-color:var(--ring)}
+    textarea{min-height:120px;resize:vertical}
+    .submit{justify-content:center;background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;color:white;cursor:pointer}
+
+    /* Footer */
+    footer{padding:30px 0;color:#9ca3af}
+    .socials{display:flex;gap:10px;flex-wrap:wrap}
+    .socials a{border:1px solid rgba(255,255,255,.12);padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.05)}
+
+    /* Utilities */
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="bg-bubbles" aria-hidden="true"></div>
+
+  <!-- ====== NAV ====== -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#inicio" class="brand">Angelo <span>Sotelo Ulloa</span></a>
+      <nav class="nav-links" aria-label="Secciones">
+        <a href="#inicio">Inicio</a>
+        <a href="#sobre">Sobre mí</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#habilidades">Habilidades</a>
+        <a href="#historias">Historias & Rango</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileNav">Menú</button>
+    </div>
+    <div class="container hidden" id="mobileNav">
+      <div class="mobile" role="menu">
+        <a href="#inicio" role="menuitem">Inicio</a>
+        <a href="#sobre" role="menuitem">Sobre mí</a>
+        <a href="#proyectos" role="menuitem">Proyectos</a>
+        <a href="#habilidades" role="menuitem">Habilidades</a>
+        <a href="#historias" role="menuitem">Historias & Rango</a>
+        <a href="#contacto" role="menuitem">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== HERO ====== -->
+  <section id="inicio" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="kicker">Portafolio Personal</div>
+        <h1>Angelo Sotelo Ulloa</h1>
+        <p class="lead">
+          Ingeniero en sistemas y <strong style="color:#ec4899">networker profesional</strong>.
+          Construyo soluciones tecnológicas, optimizo redes y potencio marcas personales.
+        </p>
+        <div class="cta-row">
+          <a class="btn" href="#proyectos">Ver proyectos</a>
+          <a class="btn" href="#contacto">Contactar</a>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <small class="muted">Sígueme:</small>
+          <div class="socials">
+            <a href="https://www.instagram.com/angelo_sotelo3?igsh=ajA3ZHZwMXFjMTEw" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.facebook.com/angelosoteloullo?mibextid=ZbWKwL" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="https://www.tiktok.com/@angelo_sotelo3?_t=ZS-8z9A1Et1W2a&_r=1" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://youtube.com/@angelo_sotelo3?si=9jfecOh-j5neH7iB" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatar: joven con gorra (SVG simple) -->
+      <div class="avatar-wrap">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="avatar">
+          <svg viewBox="0 0 200 200" width="100%" height="100%" role="img" aria-label="Ilustración de joven con gorra">
+            <defs>
+              <linearGradient id="skin" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#f5d0a1" />
+                <stop offset="100%" stop-color="#e9b97a" />
+              </linearGradient>
+            </defs>
+            <!-- gorra -->
+            <path d="M30 70 C60 30, 140 30, 170 70 L150 70 C120 50, 80 50, 50 70 Z" fill="#0f172a"/>
+            <rect x="45" y="65" width="110" height="20" rx="8" fill="#0b1222"/>
+            <!-- cara -->
+            <circle cx="100" cy="110" r="48" fill="url(#skin)"/>
+            <!-- ojos -->
+            <circle cx="85" cy="110" r="5" fill="#111"/>
+            <circle cx="115" cy="110" r="5" fill="#111"/>
+            <!-- sonrisa -->
+            <path d="M80 130 Q100 145 120 130" stroke="#9f1239" stroke-width="3" fill="none"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SOBRE MÍ ====== -->
+  <section id="sobre">
+    <div class="container grid grid-2">
+      <div>
+        <h2>Sobre mí</h2>
+        <p>Soy ingeniero en sistemas con enfoque en arquitectura robusta, seguridad y automatización.
+        Como networker profesional, desarrollo estrategias de crecimiento, ventas y formación de equipos de alto rendimiento.</p>
+        <div class="grid grid-2" style="margin-top:12px">
+          <div class="panel"><strong>Ubicación:</strong> Perú / Remoto</div>
+          <div class="panel"><strong>Disponibilidad:</strong> Proyectos y consultorías</div>
+          <div class="panel"><strong>Correo:</strong> contacto@angelosotelo.dev</div>
+          <div class="panel"><strong>Enfoque:</strong> Resultados medibles</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0">Servicios</h3>
+        <ul style="margin:0; padding-left:18px">
+          <li>Consultoría y arquitectura de sistemas</li>
+          <li>Diseño y optimización de redes</li>
+          <li>Desarrollo de sitios web y landings</li>
+          <li>Mentoría en networking y ventas</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PROYECTOS ====== -->
+  <section id="proyectos">
+    <div class="container">
+      <h2>Proyectos</h2>
+      <div class="grid grid-3">
+        <div class="panel project">
+          <div style="height:120px;border-radius:12px;background:conic-gradient(at 20% 10%, rgba(236,72,153,.25), rgba(34,197,94,.18), rgba(59,130,246,.22), rgba(236,72,153,.25));margin-bottom:10px"></div>
+          <h3>Dashboard de Redes</h3>
+          <p>Panel moderno para monitorear rendimiento de redes y tráfico en tiempo real.</p>
+          <div><span class="tag">JS</span><span class="tag">APIs</span><span class="tag">UI</span></div>
+        </div>
+        <div class="panel project">
+          <div style="height:120px;border-radius:12px;background:conic-gradient(at 80% 30%, rgba(236,72,153,.25), rgba(6,182,212,.22), rgba(59,130,246,.22), rgba(236,72,153,.25));margin-bottom:10px"></div>
+          <h3>Landing Musical</h3>
+          <p>Landing page para lanzamiento de single de rap con captura de leads.</p>
+          <div><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Marketing</span></div>
+        </div>
+        <div class="panel project">
+          <div style="height:120px;border-radius:12px;background:conic-gradient(at 60% 70%, rgba(6,182,212,.22), rgba(59,130,246,.22), rgba(236,72,153,.25));margin-bottom:10px"></div>
+          <h3>Automatización IT</h3>
+          <p>Scripts para despliegue y hardening de servidores Linux.</p>
+          <div><span class="tag">DevOps</span><span class="tag">Bash</span><span class="tag">Seguridad</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== HABILIDADES ====== -->
+  <section id="habilidades">
+    <div class="container grid grid-2">
+      <div class="panel">
+        <h2 style="margin-top:0">Habilidades</h2>
+        <div class="skill"><strong style="min-width:210px">Ingeniería de Sistemas</strong><div class="bar" style="flex:1"><span style="width:90%"></span></div><small>90%</small></div>
+        <div class="skill"><strong style="min-width:210px">Networking Profesional</strong><div class="bar" style="flex:1"><span style="width:95%"></span></div><small>95%</small></div>
+        <div class="skill"><strong style="min-width:210px">Desarrollo Web</strong><div class="bar" style="flex:1"><span style="width:85%"></span></div><small>85%</small></div>
+        <div class="skill"><strong style="min-width:210px">Liderazgo & Ventas</strong><div class="bar" style="flex:1"><span style="width:88%"></span></div><small>88%</small></div>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0">Resumen</h3>
+        <p class="muted">Tecnología, redes y crecimiento de marcas personales. Enfoque en impacto real y escalabilidad.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== HISTORIAS & RANGO ====== -->
+  <section id="historias">
+    <div class="container grid grid-2">
+      <div>
+        <h2>Historias & Rango</h2>
+        <div class="panel">
+          <div class="timeline">
+            <div class="dot"></div>
+            <h4>2018 · Inicio en Ingeniería de Sistemas</h4>
+            <p class="muted">Fundamentos de programación, bases de datos y arquitectura de computadoras.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="timeline">
+            <div class="dot"></div>
+            <h4>2020 · Especialización en Redes</h4>
+            <p class="muted">Topologías, routing, switching y endurecimiento de infraestructura.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="timeline">
+            <div class="dot"></div>
+            <h4>2022 · Networking Profesional</h4>
+            <p class="muted">Liderazgo de equipos, expansión comercial y formación de nuevos talentos.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="timeline">
+            <div class="dot"></div>
+            <h4>2024 · Portafolio Tecnológico & Musical</h4>
+            <p class="muted">Integración de proyectos web con branding personal y presencia digital.</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="rank"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#f59e0b,#fde047)"></div><div><div class="muted">Rango</div><strong>Networker Pro</strong></div></div>
+        <div class="rank"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#3b82f6,#22d3ee)"></div><div><div class="muted">Rango</div><strong>Arquitecto de Sistemas</strong></div></div>
+        <div class="rank"><div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#ec4899)"></div><div><div class="muted">Rango</div><strong>Mentor Tech</strong></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CONTACTO ====== -->
+  <section id="contacto">
+    <div class="container">
+      <h2>Contacto</h2>
+      <form id="contactForm">
+        <label>
+          <span>Nombre</span>
+          <input type="text" name="nombre" placeholder="Tu nombre" required />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" placeholder="tucorreo@ejemplo.com" required />
+        </label>
+        <label>
+          <span>Mensaje</span>
+          <textarea name="mensaje" placeholder="Cuéntame sobre tu proyecto" required></textarea>
+        </label>
+        <button class="btn submit" type="submit">Enviar mensaje</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+      <small>© 2025 Angelo Sotelo Ulloa. Todos los derechos reservados.</small>
+      <div class="socials">
+        <a href="https://www.instagram.com/angelo_sotelo3?igsh=ajA3ZHZwMXFjMTEw" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/angelosoteloullo?mibextid=ZbWKwL" target="_blank" rel="noreferrer">Facebook</a>
+        <a href="https://www.tiktok.com/@angelo_sotelo3?_t=ZS-8z9A1Et1W2a&_r=1" target="_blank" rel="noreferrer">TikTok</a>
+        <a href="https://youtube.com/@angelo_sotelo3?si=9jfecOh-j5neH7iB" target="_blank" rel="noreferrer">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Menú móvil
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    menuBtn?.addEventListener('click', () => {
+      const open = mobileNav.classList.toggle('hidden') === false;
+      menuBtn.setAttribute('aria-expanded', (!mobileNav.classList.contains('hidden')).toString());
+    });
+
+    // Scroll suave
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id=a.getAttribute('href').slice(1);
+        const el=document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+      });
+    });
+
+    // Formulario -> mailto
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const subject = encodeURIComponent('Nuevo mensaje para Angelo');
+      const body = encodeURIComponent(
+        'Nombre: ' + data.get('nombre') + '\n' +
+        'Email: ' + data.get('email') + '\n' +
+        'Mensaje: ' + data.get('mensaje')
+      );
+      window.location.href = `mailto:contacto@angelosotelo.dev?subject=${subject}&body=${body}`;
+    });
+  </script>
+</body>
+</html>
